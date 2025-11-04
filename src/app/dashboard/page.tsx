@@ -7,6 +7,7 @@ export default async function Dashboard() {
   if (!session?.user) {
     return (
       <div className="p-6">
+        <h1>Dashboard</h1>
         <p>Nicht angemeldet.</p>
         <Link href="/api/auth/signin">Login</Link>
       </div>
@@ -14,6 +15,7 @@ export default async function Dashboard() {
   }
   return (
     <div className="p-6">
+      <h1>Dashboard</h1>
       <p>
         Willkommen, {session.user.name ?? session.user.email}
       </p>
