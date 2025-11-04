@@ -10,8 +10,12 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@auth/core": "^0.41.0",
+    "@auth/prisma-adapter": "^2.11.0",
     "@prisma/client": "^6.17.1",
     "next": "15.5.4",
+    "next-auth": "^4.24.11",
+    "nodemailer": "^7.0.9",
     "prisma": "^6.17.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
