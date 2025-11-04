@@ -1,6 +1,6 @@
 import type { NextAuthOptions } from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import type { PrismaClient as PrismaClientType } from "@prisma/client"
+import type { PrismaClient as PrismaClientType } from "@/generated/prisma"
 import Google from "next-auth/providers/google"
 import Email from "next-auth/providers/email"
 import { prisma } from "@/server/db"

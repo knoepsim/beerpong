@@ -1,9 +1,12 @@
 import { getServerSession } from "next-auth"
 import { authConfig } from "@/server/auth/config"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import RouterButton from "@/components/ui/router-button";
 
 export default async function Home() {
   const session = await getServerSession(authConfig)
+
 
   if (!session?.user) {
     return (
@@ -13,7 +16,8 @@ export default async function Home() {
         <p>
           <Link href="/api/auth/signin">Login</Link>
         </p>
-      </div>
+  <RouterButton href="/api/auth/signin" variant="outline">Login</RouterButton>
+      </div >
     )
   }
   return (
