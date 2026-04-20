@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Beerpong Tournament Manager
 
-## Getting Started
+Eine moderne Full-Stack Monorepo-Anwendung zur Verwaltung von Beerpong-Turnieren. Das System unterstützt den gesamten Turnier-Lebenszyklus von der Planung über die Gruppenphase bis hin zum KO-Baum, inklusive einer interaktiven Becher-Visualisierung für die Ergebnismeldung.
 
-First, run the development server:
+## 🏗 Architektur
 
+Dieses Projekt ist als **Turborepo Monorepo** strukturiert, um eine saubere Trennung der Verantwortlichkeiten zu gewährleisten und gleichzeitig Code (wie Datenbank-Entitäten) zu teilen.
+
+### Komponenten:
+- **`apps/web` (Next.js):** Das Frontend der Anwendung. Nutzt **Next.js 16 (Turbopack)**, **Tailwind CSS** und **Shadcn UI**. Die Authentifizierung erfolgt über **NextAuth.js**.
+- **`apps/api` (NestJS):** Das Backend für die Turnierlogik. Nutzt **NestJS 11** für REST-Endpoints und ist für zukünftige Hardware-Integrationen (WebSockets) vorbereitet.
+- **`packages/db` (Shared):** Ein geteiltes Paket, das die Datenbank-Logik mittels **MikroORM 6** kapselt. Es nutzt das `EntitySchema`-Muster für maximale Kompatibilität mit dem Next.js-Build-Prozess.
+
+## 🚀 Tech Stack
+
+- **Monorepo Tooling:** [Turborepo](https://turbo.build/), pnpm Workspaces
+- **Frontend:** Next.js 16 (React 19), Tailwind CSS, Lucide Icons, Radix UI
+- **Backend:** NestJS 11, MikroORM 6
+- **Datenbank:** PostgreSQL
+- **Authentifizierung:** NextAuth.js (Social Login & Magic Links)
+
+## ✨ Features
+
+- **Turnier-Lifecycle:** Planung -> Check-in -> Gruppenphase -> KO-Phase.
+- **Team-Management:** Erstellung von Teams, Beitritt via Link und Check-in System.
+- **Automatisierung:** Automatische Generierung von Gruppen-Matches und KO-Bäumen.
+- **Echtzeit-Tabellen:** Live-Berechnung von Punkten und Becher-Differenzen.
+- **Interaktive Ergebnismeldung:** Einzigartige visuelle Erfassung des Spielstands über ein klickbares 10er-Becher-Dreieck.
+- **Hybrid Data Approach:** CRUD für schnellen Zugriff kombiniert mit einem Audit-Log für volle Revisionssicherheit.
+
+## 🛠 Setup & Start
+
+### 1. Voraussetzungen
+- Node.js >= 20
+- pnpm >= 9
+- Eine laufende PostgreSQL Instanz
+
+### 2. Installation
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Abhängigkeiten installieren
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Konfiguration
+Erstelle eine `.env` Datei im Root oder in den entsprechenden Apps (siehe `.env.example` in `apps/web`):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+DATABASE_URL="postgresql://user:pass@localhost:5432/beerpong"
+NEXTAUTH_SECRET="your-secret"
+# ... weitere Provider-Secrets
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Datenbank Migration
+Da MikroORM genutzt wird, müssen die Tabellen initial erstellt werden:
+```bash
+pnpm --filter @beerpong/db db:migrate
+```
 
-## Learn More
+### 5. Entwicklung
+Starte alle Anwendungen gleichzeitig im Watch-Modus:
+```bash
+pnpm dev
+```
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:3001`
 
-To learn more about Next.js, take a look at the following resources:
+### 6. Build
+Erstelle produktionsbereite Builds für alle Pakete:
+```bash
+pnpm build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📜 Lizenz
+MIT
